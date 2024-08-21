@@ -1,6 +1,8 @@
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://chris:chris123@cluster0.xmab3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const msgSchema = require("./schemas/messagesSchema.js");
+const config = require("./config.json");
+const uri = config.mongodb_server;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -8,7 +10,7 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true,
   }
-});
+})
 
 async function run() {
   try {
@@ -19,4 +21,11 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+
+async function verifyDatabases() {
+  const databasesList = await client.db().admin().listDatabases();
+  console.log(databasesList);
+}
+
+run();
+verifyDatabases();
