@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-const config = require("../config.json");
 
-mongoose.connect(config.mongodb_server);
 const messageSchema = new mongoose.Schema({
+  isGPT: {
+    type: Boolean,
+    required: true,
+  },
   message: {
     type: String,
     required: true,
@@ -13,4 +15,6 @@ const messageSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Messages", messageSchema);
+module.exports = {
+  messageSchema
+};
